@@ -42,7 +42,7 @@ public class BrightnessRegulator : MonoBehaviour {
             Color emissionColor = this.defaultColor * (this.minEmission + Mathf.Sin(this.degree * Mathf.Deg2Rad) * this.magEmission);
 
             // エミッションに色を設定する
-            myMaterial.SetColor("_EmissionColor ",emissionColor);
+            myMaterial.SetColor("_EmissionColor",emissionColor);
 
             // 現在の角度を小さくする
             this.degree -= this.speed;

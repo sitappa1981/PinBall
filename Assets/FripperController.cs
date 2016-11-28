@@ -40,6 +40,15 @@ public class FripperController : MonoBehaviour {
             SetAngle(this.defaultAngle);
         }
 
+        // マウスの左クリックを押した時及びスマートフォンでタップした時、フリッパーを動かす
+        if (Input.GetMouseButton(0)) {
+            SetAngle(this.flickAngle);
+        }
+
+        // マウスの左クリックを話した時及びスマートフォンでタップを外した時に、フリッパーを元に戻す
+        if (Input.GetMouseButtonUp(0)) {
+            SetAngle(this.defaultAngle);
+        }
     }
 
 
