@@ -40,17 +40,37 @@ public class FripperController : MonoBehaviour {
             SetAngle(this.defaultAngle);
         }
 
-        // マウスの左クリックを押した時及びスマートフォンでタップした時、フリッパーを動かす
-        if (Input.GetMouseButton(0)) {
-            SetAngle(this.flickAngle);
-        }
+        //スマートフォンでタップした時にフリッパーを動かす為の命令文
+        foreach (Touch t in Input.touches) {
+            var id = t.fingerId;                    // タッチ時のID
+            switch (t.phase) {
 
-        // マウスの左クリックを話した時及びスマートフォンでタップを外した時に、フリッパーを元に戻す
-        if (Input.GetMouseButtonUp(0)) {
-            SetAngle(this.defaultAngle);
+                case TouchPhase.Began:
+                    Vector2 pos = t.position;                                                                           // タッチした位置を取得
+                    if (t.position.x <= Screen.width / 2 && tag == "LeftFripperTag") {                                  // 画面横幅全体を半分より左側を押した時
+                        SetAngle(this.flickAngle);                                                                      // 左フリッパーを動かす
+                    } 
+
+                    if (t.position.x >= Screen.width / 2 && tag == "RightFripperTag") {                                 // 画面横幅全体を半分より右側を押した時
+                        SetAngle(this.flickAngle);                                                                      // 右フリッパーを動かす
+                    }
+                    break;
+
+                case TouchPhase.Ended:                                                                                  // タッチが離された時
+                case TouchPhase.Canceled:                                                                               // タッチを解除された時
+                        SetAngle(this.defaultAngle);                                                                    // フリッパーを元に戻す
+                    break;
+            }
         }
+        /*
+        for (int i = 0; i < Input.touchCount; i++) {
+            var id = Input.touches[i].fingerId;
+            var pos = Input.touches[i].position;
+            Debug.LogFormat("{0} - x:{1}, y:{2}", id, pos.x, pos.y);
+        }
+        */
+
     }
-
 
     public void SetAngle(float angle) {
         JointSpring jointSpr = this.myHingJoynt.spring;
